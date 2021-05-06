@@ -62,8 +62,13 @@ RUN docker-php-ext-configure \
 ENV SWOOLE_VERSION=4.6.6
 
 RUN pecl install swoole && docker-php-ext-enable swoole && \
-    pecl install redis && docker-php-ext-enable redis && \
-    pecl install imagick && docker-php-ext-enable imagick
+    pecl install redis && docker-php-ext-enable redis
+
+ARG IMAGICK_LAST_COMMIT='448c1cd0d58ba2838b9b6dff71c9b7e70a401b90'
+
+RUN mkdir -p /usr/src/php/ext/imagick && \
+    curl -fsSL https://github.com/Imagick/imagick/archive/${IMAGICK_LAST_COMMIT}.tar.gz | tar xvz -C /usr/src/php/ext/imagick --strip 1 && \
+    docker-php-ext-install imagick
 
 RUN git clone https://github.com/emcrisostomo/fswatch.git /root/fswatch && \
     cd /root/fswatch && \
