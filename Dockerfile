@@ -4,8 +4,8 @@ RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
 
 # Add Repositories
 RUN rm -f /etc/apk/repositories &&\
-    echo "http://dl-cdn.alpinelinux.org/alpine/v3.12/main" >> /etc/apk/repositories && \
-    echo "http://dl-cdn.alpinelinux.org/alpine/v3.12/community" >> /etc/apk/repositories
+    echo "http://dl-cdn.alpinelinux.org/alpine/v3.13/main" >> /etc/apk/repositories && \
+    echo "http://dl-cdn.alpinelinux.org/alpine/v3.13/community" >> /etc/apk/repositories
 
 # Add Build Dependencies
 RUN apk add --no-cache --virtual .build-deps  \
@@ -52,7 +52,6 @@ RUN docker-php-ext-configure \
     pdo \
     pdo_mysql \
     sockets \
-    json \
     intl \
     gd \
     zip \
