@@ -54,6 +54,7 @@ RUN docker-php-ext-configure \
     sockets \
     intl \
     gd \
+    exif \
     zip \
     bz2 \
     pcntl \
