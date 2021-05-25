@@ -45,7 +45,7 @@ RUN apk add --update --no-cache \
 # Configure & Install Extension
 RUN docker-php-ext-configure \
     opcache --enable-opcache &&\
-    docker-php-ext-configure gd &&\
+    docker-php-ext-configure gd --with-jpeg &&\
     docker-php-ext-install \
     opcache \
     mysqli \
