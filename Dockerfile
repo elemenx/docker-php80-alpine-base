@@ -10,9 +10,12 @@ RUN rm -f /etc/apk/repositories &&\
 # Add Build Dependencies
 RUN apk add --no-cache --virtual .build-deps  \
     zlib-dev \
+    freetype-dev \
     libjpeg-turbo-dev \
+    libjpeg-turbo \
     libpng-dev \
     libxml2-dev \
+    jpeg-dev \
     bzip2-dev \
     libzip-dev \
     gettext-dev
@@ -45,7 +48,7 @@ RUN apk add --update --no-cache \
 # Configure & Install Extension
 RUN docker-php-ext-configure \
     opcache --enable-opcache &&\
-    docker-php-ext-configure gd --with-jpeg &&\
+    docker-php-ext-configure gd --with-freetype --with-jpeg &&\
     docker-php-ext-install \
     opcache \
     mysqli \
