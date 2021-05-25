@@ -10,7 +10,6 @@ RUN rm -f /etc/apk/repositories &&\
 # Add Build Dependencies
 RUN apk add --no-cache --virtual .build-deps  \
     zlib-dev \
-    freetype-dev \
     libjpeg-turbo-dev \
     libjpeg-turbo \
     libpng-dev \
