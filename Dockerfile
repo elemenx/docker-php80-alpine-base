@@ -1,11 +1,11 @@
-FROM php:8.0-cli-alpine
+FROM php:8.1-cli-alpine
 
 RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
 
 # Add Repositories
 RUN rm -f /etc/apk/repositories &&\
-    echo "http://dl-cdn.alpinelinux.org/alpine/v3.13/main" >> /etc/apk/repositories && \
-    echo "http://dl-cdn.alpinelinux.org/alpine/v3.13/community" >> /etc/apk/repositories
+    echo "http://dl-cdn.alpinelinux.org/alpine/v3.15/main" >> /etc/apk/repositories && \
+    echo "http://dl-cdn.alpinelinux.org/alpine/v3.15/community" >> /etc/apk/repositories
 
 # Add Build Dependencies
 RUN apk add --no-cache --virtual .build-deps  \
@@ -60,27 +60,11 @@ RUN docker-php-ext-configure \
     zip \
     bz2 \
     pcntl \
-    bcmath
-
-ENV SWOOLE_VERSION=4.6.6
+    bcmath \
+    imagick
 
 RUN pecl install swoole && docker-php-ext-enable swoole && \
     pecl install redis && docker-php-ext-enable redis
-
-ARG IMAGICK_LAST_COMMIT='448c1cd0d58ba2838b9b6dff71c9b7e70a401b90'
-
-RUN mkdir -p /usr/src/php/ext/imagick && \
-    curl -fsSL https://github.com/Imagick/imagick/archive/${IMAGICK_LAST_COMMIT}.tar.gz | tar xvz -C /usr/src/php/ext/imagick --strip 1 && \
-    docker-php-ext-install imagick
-
-RUN git clone https://github.com/emcrisostomo/fswatch.git /root/fswatch && \
-    cd /root/fswatch && \
-    ./autogen.sh && \
-    ./configure && \
-    make -j && \
-    make install && \
-    cd /root && \
-    rm -rf /root/fswatch
 
 # Add Composer
 RUN curl -s https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin/ --filename=composer && \
