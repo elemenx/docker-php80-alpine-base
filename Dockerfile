@@ -60,11 +60,16 @@ RUN docker-php-ext-configure \
     zip \
     bz2 \
     pcntl \
-    bcmath \
-    imagick
+    bcmath
 
 RUN pecl install swoole && docker-php-ext-enable swoole && \
     pecl install redis && docker-php-ext-enable redis
+
+ARG IMAGICK_LAST_COMMIT='52ec37ff633de0e5cca159a6437b8c340afe7831'
+
+RUN mkdir -p /usr/src/php/ext/imagick && \
+    curl -fsSL https://github.com/Imagick/imagick/archive/${IMAGICK_LAST_COMMIT}.tar.gz | tar xvz -C /usr/src/php/ext/imagick --strip 1 && \
+    docker-php-ext-install imagick
 
 # Add Composer
 RUN curl -s https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin/ --filename=composer && \
