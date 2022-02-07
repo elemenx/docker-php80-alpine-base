@@ -58,6 +58,7 @@ RUN docker-php-ext-configure \
     sockets \
     intl \
     gd \
+    gmp \
     exif \
     zip \
     bz2 \
