@@ -19,6 +19,7 @@ RUN apk add --no-cache --virtual .build-deps  \
     jpeg-dev \
     bzip2-dev \
     libzip-dev \
+    gmp-dev \
     gettext-dev
 
 # Add Production Dependencies
